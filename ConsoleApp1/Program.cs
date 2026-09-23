@@ -12,7 +12,7 @@ while (result != funcs[3])
     result = Console.ReadLine().Trim();
     if (result.StartsWith("/echo") && userName != null)
     {
-        Console.WriteLine($"{userName}: Hello");
+        Console.WriteLine($"{userName}: {result.Substring(6)}");
         continue;
     }
     switch (result)
@@ -26,10 +26,12 @@ while (result != funcs[3])
             Console.WriteLine($"{(string.IsNullOrWhiteSpace(userName) ? pattern : userName)}: {pattern}, {funcs[4]}");
             break;
         case "/help":
-            Console.WriteLine($"{(string.IsNullOrWhiteSpace(userName) ? "Предоставляю информацию" : userName)}: Предоставляю информацию");
+            Console.WriteLine(string.IsNullOrWhiteSpace(userName) ? "Предоставляю информацию" : $"{userName}: Предоставляю информацию");
             break;
         case "/info":
-            Console.WriteLine($"{(string.IsNullOrWhiteSpace(userName) ? "Версия 1.0.0.1 от 09/09/2026" : userName)}: Версия 1.0.0.1 от 09/09/2026");
+            Console.WriteLine(string.IsNullOrWhiteSpace(userName) ? "Версия 1.0.0.1 от 09/09/2026" : $"{userName}: Версия 1.0.0.1 от 09/09/2026");
+            break;
+        case "/exit":
             break;
         default:
             Console.WriteLine($"{userName}: Такой команды нет");
