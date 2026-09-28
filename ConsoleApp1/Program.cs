@@ -1,11 +1,12 @@
 ﻿
-var funcs = new string[] { "/start", "/help", "/info", "/exit", "/echo" };
+var funcs = new string[] { "/start", "/help", "/info", "/echo", "/addtask", "/showtasks", "/removetask", "/exit" };
 string userName = null;
-var pattern = $"Вам доступны следующие команды {funcs[0]}, {funcs[1]}, {funcs[2]}, {funcs[3]}";
-
-Console.WriteLine($"Здравствуйте! \n {pattern}");
-
 string result = null;
+var myTasks = new List<string>();
+
+Console.Write("Добро пожаловать! Доступны команды: ");
+startProgramm();
+
 
 while (result != funcs[3])
 {
@@ -20,10 +21,10 @@ while (result != funcs[3])
         case "/start":
             if (userName ==null)
             {
-                Console.WriteLine("Введите свое имя ");
+                Console.WriteLine("Пожалуйста, введите ваше имя: ");
                 userName = Console.ReadLine();
             }
-            Console.WriteLine($"{(string.IsNullOrWhiteSpace(userName) ? pattern : userName)}: {pattern}, {funcs[4]}");
+            Console.WriteLine($"Привет, {userName}! Чем могу помочь?");
             break;
         case "/help":
             Console.WriteLine(string.IsNullOrWhiteSpace(userName) ? "Предоставляю информацию" : $"{userName}: Предоставляю информацию");
@@ -33,6 +34,15 @@ while (result != funcs[3])
             break;
         case "/exit":
             break;
+        case "/addtask":
+            addTaks();
+            break;
+        case "/showtasks":
+            showtasks();
+            break;
+        case "/removetask":
+            removetask();
+            break;
         default:
             Console.WriteLine($"{userName}: Такой команды нет");
             break;
@@ -41,3 +51,53 @@ while (result != funcs[3])
 }
 
 
+void startProgramm()
+{
+    if (userName == null)
+    {
+        foreach (var item in funcs)
+        {
+            if (item == "/echo")
+            {
+                continue;
+            }
+            Console.Write($"{item} ");
+        }
+        Console.WriteLine();
+    }
+    if (userName != null)
+    {
+        foreach (var item in funcs)
+        {
+            Console.Write($"{item} ");
+        }
+        Console.WriteLine();
+    }
+}
+
+void addTaks()
+{
+    Console.Write($"Пожалуйста, введите описание задачи: ");
+    string task = Console.ReadLine();
+    myTasks.Add(task);
+    Console.WriteLine($"Задача \"{task}\" добавлена");
+}
+
+void showtasks()
+{
+    int index = 1;
+    foreach (var item in myTasks){ 
+        Console.WriteLine($"{index}. {item}");
+        index++;
+    }
+}
+
+void removetask()
+{
+    Console.WriteLine("Вот ваш список задач:");
+    showtasks();
+    Console.Write("Введите номер задачи для удаления: ");
+    int index = int.Parse(Console.ReadLine()) - 1;
+    Console.WriteLine($"Задача \"{myTasks[index]}\" удалена.");
+    myTasks.RemoveAt(index);
+}
