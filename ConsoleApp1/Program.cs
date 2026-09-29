@@ -107,15 +107,15 @@ void removetask()
     showtasks();
     Console.Write("Введите номер задачи для удаления: ");
     int index = int.Parse(Console.ReadLine());
-    if (index >= 0 && index < myTasks.Count)
-    {
-        Console.WriteLine($"Задача \"{myTasks[index - 1]}\" удалена.");
-        myTasks.RemoveAt(index);
-    }
-    else
+    if (index <= 0 || index > myTasks.Count)
     {
         Console.WriteLine($"{userName}: Задачи с таким индексом нет.");
         removetask();
+    }
+    else
+    {
+        Console.WriteLine($"{userName}: Задача \"{myTasks[index - 1]}\" удалена.");
+        myTasks.RemoveAt(index-1);
     }
         
 }
