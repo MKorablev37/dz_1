@@ -1,8 +1,11 @@
 ﻿
+using System.Collections.Generic;
+
 var funcs = new string[] { "/start", "/help", "/info", "/echo", "/addtask", "/showtasks", "/removetask", "/exit" };
 string userName = null;
 string result = null;
 var myTasks = new List<string>();
+const string helpMessage = "Вам доступны следующие команды: ";
 
 Console.Write("Добро пожаловать! Доступны команды: ");
 startProgramm();
@@ -27,7 +30,8 @@ while (result != funcs[3])
             Console.WriteLine($"Привет, {userName}! Чем могу помочь?");
             break;
         case "/help":
-            Console.WriteLine(string.IsNullOrWhiteSpace(userName) ? "Предоставляю информацию" : $"{userName}: Предоставляю информацию");
+            Console.WriteLine(string.IsNullOrWhiteSpace(userName) ? helpMessage : $"{userName}: {helpMessage}");
+            startProgramm();
             break;
         case "/info":
             Console.WriteLine(string.IsNullOrWhiteSpace(userName) ? "Версия 1.0.0.1 от 09/09/2026" : $"{userName}: Версия 1.0.0.1 от 09/09/2026");
@@ -85,6 +89,11 @@ void addTaks()
 
 void showtasks()
 {
+    if(myTasks.Count == 0)
+    {
+        Console.WriteLine($"{userName}: В списке нет задач.");
+        return;
+    }
     int index = 1;
     foreach (var item in myTasks){ 
         Console.WriteLine($"{index}. {item}");
@@ -97,7 +106,16 @@ void removetask()
     Console.WriteLine("Вот ваш список задач:");
     showtasks();
     Console.Write("Введите номер задачи для удаления: ");
-    int index = int.Parse(Console.ReadLine()) - 1;
-    Console.WriteLine($"Задача \"{myTasks[index]}\" удалена.");
-    myTasks.RemoveAt(index);
+    int index = int.Parse(Console.ReadLine());
+    if (index >= 0 && index < myTasks.Count)
+    {
+        Console.WriteLine($"Задача \"{myTasks[index - 1]}\" удалена.");
+        myTasks.RemoveAt(index);
+    }
+    else
+    {
+        Console.WriteLine($"{userName}: Задачи с таким индексом нет.");
+        removetask();
+    }
+        
 }
